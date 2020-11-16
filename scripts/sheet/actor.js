@@ -172,6 +172,7 @@ export class WrathAndGloryActorSheet extends ActorSheet {
         const div = $(event.currentTarget).parents(".item");
         const psychicPower = this.actor.getOwnedItem(div.data("itemId"));
         const skill = this.actor.data.data.skills.psychicMastery;
+        this.rollData.difficulty.target = psychicPower.data.data.dn;
         this.rollData.name = psychicPower.data.name;
         this.rollData.pool.size = skill.total;
         await preparePsychicRoll(this.rollData);
