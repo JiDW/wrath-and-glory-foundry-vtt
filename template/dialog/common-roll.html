@@ -1,0 +1,24 @@
+<div class="wrath-and-glory dialog">
+    <h1>{{localize name}}</h1>
+    <div class="wrapper">
+        <label>{{localize "DIALOG.DN"}}</label>
+        <input id="target" type="number" value="{{difficulty.target}}" data-dtype="Number" />
+    </div>
+    <div class="wrapper">
+        <label>{{localize "DIALOG.PENALTY"}}</label>
+        <input id="penalty" type="number" value="{{difficulty.penalty}}" data-dtype="Number" />
+    </div>
+    <div class="wrapper">
+        <label>{{localize "DIALOG.DICE_POOL"}}</label>
+        <input id="size" type="number" value="{{pool.size}}" ata-dtype="Number" />
+    </div>
+    <div class="wrapper">
+        <label>{{localize "DIALOG.BONUS"}}</label>
+        <input id="bonus" type="number" value="{{pool.bonus}}" ata-dtype="Number" />
+    </div>
+</div>
+<script>
+    $(".wrapper input").focusin(function () {
+        $(this).select();
+    });
+</script>

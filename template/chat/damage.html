@@ -1,0 +1,18 @@
+<div class="wrath-and-glory chat roll">
+    <div class="wrapper">
+        <h3>{{name}}</h3>
+
+        <div style="text-align: center;">
+            {{#each result.damage.dice as |die|}}
+            <img width='50px' height='50px' src='systems/wrath-and-glory/asset/image/die-{{die.name}}.png' />
+            {{/each}}
+        </div>
+    </div>
+
+    <div class="wrapper-input">
+        <p><strong>{{localize "WEAPON.DAMAGE"}}: {{result.damage.total}}</strong></p>
+        <p><strong>{{localize "WEAPON.AP"}}: {{weapon.ap}}</strong></p>
+        <p><strong>{{localize "WEAPON.TRAITS"}}: {{weapon.traits}}</strong></p>
+    </div>
+</div>
+</div>

@@ -1,0 +1,24 @@
+<div class="wrath-and-glory dialog">
+    <h1>{{name}}</h1>
+    <div class="wrapper">
+        <label>{{localize "WEAPON.DAMAGE"}}</label>
+        <input id="damage" type="number" value="{{weapon.damage}}" ata-dtype="Number" />
+    </div>
+    <div class="wrapper">
+        <label>{{localize "DIALOG.BONUS"}}</label>
+        <input id="damage-bonus" type="number" value="{{weapon.bonus}}" ata-dtype="Number" />
+    </div>
+    <div class="wrapper">
+        <label>{{localize "WEAPON.ED"}}</label>
+        <input id="ed" type="number" value="{{weapon.ed}}" ata-dtype="Number" />
+    </div>
+    <div class="wrapper">
+        <label>{{localize "WEAPON.AP"}}</label>
+        <input id="ap" type="number" value="{{weapon.ap}}" ata-dtype="Number" />
+    </div>
+</div>
+<script>
+    $(".wrapper input").focusin(function () {
+        $(this).select();
+    });
+</script>
