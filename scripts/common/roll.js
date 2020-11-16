@@ -85,7 +85,7 @@ function _computeChat(rollData) {
   rollData.result.success = _countSuccess(rollData);
   rollData.result.failure = _countFailure(rollData);
   rollData.result.shifting = _countShifting(rollData);
-  rollData.result.isSuccess = rollData.result.success > rollData.dn;
+  rollData.result.isSuccess = rollData.result.success >= rollData.dn;
   rollData.result.isWrathCritical = rollData.result.wrath === 6;
   rollData.result.isWrathComplication = rollData.result.wrath === 1;
 }
