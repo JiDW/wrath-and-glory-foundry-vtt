@@ -7,7 +7,7 @@ It provides support for **character sheets only**, game content should be drawn 
 2. Click the **Install System** button, and paste in this [manifest link](https://github.com/Perfectro/wrath-and-glory-foundry-vtt/raw/master/system.json)
 3. Create a Game World using the Wrath & Glory system.
 
-## Sneaky Preview
+## Preview
 ![Player Sheet 1](https://github.com/Perfectro/wrath-and-glory-foundry-vtt/blob/master/asset/preview/agent1.jpg?raw=true)  
 ![Player Sheet 2](https://github.com/Perfectro/wrath-and-glory-foundry-vtt/blob/master/asset/preview/agent2.jpg?raw=true)  
 ![Player Sheet 3](https://github.com/Perfectro/wrath-and-glory-foundry-vtt/blob/master/asset/preview/agent3.jpg?raw=true)  
