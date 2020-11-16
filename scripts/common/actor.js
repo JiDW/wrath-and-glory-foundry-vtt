@@ -61,6 +61,9 @@ export class WrathAndGloryActor extends Actor {
             if (item.data.hasOwnProperty("bonus")) {
                 this._computeBonus(data, item.data.bonus);
             }
+            if (data.data.hasOwnProperty("advances") && item.data.hasOwnProperty("cost")) {
+                data.data.advances.experience.spent = data.data.advances.experience.spent + item.data.cost;
+            }
         }
     }
 
