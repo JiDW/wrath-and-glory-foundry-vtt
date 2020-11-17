@@ -189,7 +189,8 @@
           "passiveAwareness": {
             "bonus": 0,
             "total": 0
-          }
+          },
+          "stealth": 0
         }
       }
     },
@@ -309,8 +310,7 @@
             "determination": 0,
             "shock": 0,
             "resolve": 0,
-            "passiveAwareness": 0,
-            "stealth": 0
+            "passiveAwareness": 0
           }
         }
       }

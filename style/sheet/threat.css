@@ -24,6 +24,8 @@
 
 .wrath-and-glory.sheet.actor .threat .sheet-header .avatar img {
   border: 0 none;
+  height: 100%;
+  width: 100%;
 }
 
 .wrath-and-glory.sheet.actor .threat .sheet-header .bio {
