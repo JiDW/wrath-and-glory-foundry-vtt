@@ -51,17 +51,91 @@
           </div>
         </div>
         <div class="wrapper">
+          <div class="header">
+            <b class="name"></b>
+            <b class="base">{{localize "DIALOG.BASE"}}</b>
+            <b class="rank">{{localize "DIALOG.RANK"}}</b>
+            <b class="modifier">{{localize "DIALOG.BONUS"}}</b>
+          </div>
+        </div>
+        <div class="wrapper">
+          <div class="attack">
+            <label>{{localize "WEAPON.ATTACK"}}</label>
+            <input name="data.attack.base" class="base" type="number" value="{{data.attack.base}}"
+              data-dtype="Number" />
+            <select name="data.attack.rank" class="rank">
+              {{#select data.attack.rank}}
+              <option value="none">{{localize "RANK.NONE"}}</option>
+              <option value="single">{{localize "RANK.SINGLE"}}</option>
+              <option value="double">{{localize "RANK.DOUBLE"}}</option>
+              {{/select}}
+            </select>
+            <input name="data.attack.bonus" class="modifier" type="number" value="{{data.attack.bonus}}" data-dtype="Number" />
+          </div>
+        </div>
+        <div class="wrapper">
           <div class="damage">
             <label>{{localize "WEAPON.DAMAGE"}}</label>
-            <input name="data.damage" type="number" value="{{data.damage}}" data-dtype="Number" />
+            <input name="data.damage.base" class="base" type="number" value="{{data.damage.base}}"
+              data-dtype="Number" />
+            <select name="data.damage.rank" class="rank">
+              {{#select data.damage.rank}}
+              <option value="none">{{localize "RANK.NONE"}}</option>
+              <option value="single">{{localize "RANK.SINGLE"}}</option>
+              <option value="double">{{localize "RANK.DOUBLE"}}</option>
+              {{/select}}
+            </select>
+            <input name="data.damage.bonus" class="modifier" type="number" value="{{data.damage.bonus}}" data-dtype="Number" />
           </div>
-          <div class="ap">
-            <label>{{localize "WEAPON.AP"}}</label>
-            <input name="data.ap" type="number" value="{{data.ap}}" data-dtype="Number" />
-          </div>
+        </div>
+        <div class="wrapper">
           <div class="ed">
             <label>{{localize "WEAPON.ED"}}</label>
-            <input name="data.ed" type="number" value="{{data.ed}}" data-dtype="Number" />
+            <input name="data.ed.base" class="base" type="number" value="{{data.ed.base}}" data-dtype="Number" />
+            <select name="data.ed.rank" class="rank">
+              {{#select data.ed.rank}}
+              <option value="none">{{localize "RANK.NONE"}}</option>
+              <option value="single">{{localize "RANK.SINGLE"}}</option>
+              <option value="double">{{localize "RANK.DOUBLE"}}</option>
+              {{/select}}
+            </select>
+            <input name="data.ed.bonus" class="modifier" type="number" value="{{data.ed.bonus}}" data-dtype="Number" />
+          </div>
+        </div>
+        <div class="wrapper">
+          <div class="ap">
+            <label>{{localize "WEAPON.AP"}}</label>
+            <input name="data.ap.base" class="base" type="number" value="{{data.ap.base}}" data-dtype="Number" />
+            <select name="data.ap.rank" class="rank">
+              {{#select data.ap.rank}}
+              <option value="none">{{localize "RANK.NONE"}}</option>
+              <option value="single">{{localize "RANK.SINGLE"}}</option>
+              <option value="double">{{localize "RANK.DOUBLE"}}</option>
+              {{/select}}
+            </select>
+            <input name="data.ap.bonus" class="modifier" type="number" value="{{data.ap.bonus}}" data-dtype="Number" />
+          </div>
+        </div>
+        <div class="wrapper">
+          <div class="header">
+            <b class="name"></b>
+            <b class="die">1</b>
+            <b class="die">2</b>
+            <b class="die">3</b>
+            <b class="die">4</b>
+            <b class="die">5</b>
+            <b class="die">6</b>
+          </div>
+        </div>
+        <div class="wrapper">
+          <div class="die-value">
+            <label class="name">{{localize "WEAPON.DIE_VALUE"}}</label>
+            <input name="data.ed.die.one" type="number" value="{{data.ed.die.one}}" data-dtype="Number" />
+            <input name="data.ed.die.two" type="number" value="{{data.ed.die.two}}" data-dtype="Number" />
+            <input name="data.ed.die.three" type="number" value="{{data.ed.die.three}}" data-dtype="Number" />
+            <input name="data.ed.die.four" type="number" value="{{data.ed.die.four}}" data-dtype="Number" />
+            <input name="data.ed.die.five" type="number" value="{{data.ed.die.five}}" data-dtype="Number" />
+            <input name="data.ed.die.six" type="number" value="{{data.ed.die.six}}" data-dtype="Number" />
           </div>
         </div>
         <div class="wrapper">

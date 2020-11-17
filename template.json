@@ -309,7 +309,8 @@
             "determination": 0,
             "shock": 0,
             "resolve": 0,
-            "passiveAwareness": 0
+            "passiveAwareness": 0,
+            "stealth": 0
           }
         }
       }
@@ -386,7 +387,25 @@
       "multiTarget": false,
       "keywords": "",
       "prerequisites": "",
-      "potency": ""
+      "potency": "",
+      "damage": {
+        "base": 0,
+        "bonus": 0,
+        "rank": "none"
+      },
+      "ed": {
+        "base": 0,
+        "bonus": 0,
+        "die": {
+          "one": 0,
+          "two": 0,
+          "three": 0,
+          "four": 1,
+          "five": 1,
+          "six": 2
+        },
+        "rank": "none"
+      }
     },
     "talent": {
       "templates": ["bonus"],
@@ -403,9 +422,34 @@
     "weapon": {
       "templates": ["bonus"],
       "description": "",
-      "ap": 0,
-      "damage": 0,
-      "ed": 0,
+      "attack": {
+        "base": 0,
+        "bonus": 0,
+        "rank": "none"
+      },
+      "damage": {
+        "base": 0,
+        "bonus": 0,
+        "rank": "none"
+      },
+      "ed": {
+        "base": 0,
+        "bonus": 0,
+        "die": {
+          "one": 0,
+          "two": 0,
+          "three": 0,
+          "four": 1,
+          "five": 1,
+          "six": 2
+        },
+        "rank": "none"
+      },
+      "ap": {
+        "base": 0,
+        "bonus": 0,
+        "rank": "none"
+      },
       "category": "melee",
       "range": {
         "short": 0,

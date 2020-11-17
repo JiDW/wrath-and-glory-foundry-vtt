@@ -20,8 +20,8 @@
       <input name="data.combat.passiveAwareness.total" type="number" value="{{data.combat.passiveAwareness.total}}" data-dtype="Number" />
     </div>
     <div class="wrapper-item">
-      <label style="cursor: default;">{{localize "HEADER.STEALTH"}}</label>
-      <input type="number" value="{{data.skills.stealth.total}}" data-dtype="Number" disabled />
+      <label class="roll-stealth hover">{{localize "HEADER.STEALTH_SCORE"}}</label>
+      <input name="data.combat.stealth" type="number" value="{{data.combat.stealth}}" data-dtype="Number" />
     </div>
     <div class="wrapper-item">
       <label style="cursor: default;">{{localize "HEADER.SIZE"}}</label>
@@ -159,9 +159,9 @@
         <div class="item" data-item-id="{{item._id}}">
           <div class="avatar" style="background-image: url('{{item.img}}')"></div>
           <div class="name roll-weapon">{{item.name}}</div>
-          <div class="damage">{{item.data.damage}}</div>
-          <div class="ed">{{item.data.ed}}</div>
-          <div class="ap">{{item.data.ap}}</div>
+          <div class="damage">{{damage item.data.damage}}</div>
+          <div class="ed">{{ed item.data.ed}}</div>
+          <div class="ap">{{ap item.data.ap}}</div>
           <div class="range">{{range item.data}}</div>
           <div class="traits">{{item.data.traits}}</div>
         </div>

@@ -138,6 +138,33 @@
   cursor: default;
 }
 
+.wrath-and-glory.sheet.item .wrapper .header {
+  display: flex;
+  flex-direction: row;
+  flex-basis: 100%;
+  text-align: center;
+}
+
+.wrath-and-glory.sheet.item .wrapper .header b.name {
+  min-width: 100px;
+  max-width: 100px;
+}
+
+.wrath-and-glory.sheet.item .wrapper .header b.rank {
+  width: 95px;
+}
+
+.wrath-and-glory.sheet.item .wrapper .header b.base,
+.wrath-and-glory.sheet.item .wrapper .header b.modifier {
+  flex-basis: 15%;
+  flex-grow: 1;
+}
+
+.wrath-and-glory.sheet.item .wrapper .header b.die {
+  flex-grow: calc((100% / 6) - 100px);
+  flex-grow: 1;
+}
+
 .wrath-and-glory.sheet.item .wrapper * input,
 .wrath-and-glory.sheet.item .wrapper * select {
   height: 31px;
@@ -384,7 +411,7 @@
 /* PSYCHIC POWER */
 
 .wrath-and-glory.sheet.item .psychic-power .description .editor {
-  height: 355px;
+  height: 522px;
 }
 
 .wrath-and-glory.sheet.item .psychic-power .potency .editor {
@@ -412,7 +439,7 @@
   flex-basis: 70%;
 }
 
-.wrath-and-glory.sheet.item .psychic-power .sheet-body .wrapper .dn {
+.wrath-and-glory.sheet.item .psychic-power .sheet-body .wrapper .duration {
   display: flex;
   flex-direction: row;
   flex-basis: calc(50% - 4px);
@@ -426,7 +453,7 @@
   flex-basis: 50%;
 }
 
-.wrath-and-glory.sheet.item .psychic-power .sheet-body .wrapper .duration,
+.wrath-and-glory.sheet.item .psychic-power .sheet-body .wrapper .dn,
 .wrath-and-glory.sheet.item .psychic-power .sheet-body .wrapper .range {
   display: flex;
   flex-direction: row;
@@ -438,6 +465,29 @@
   display: flex;
   flex-direction: row;
   flex-basis: 30%;
+}
+
+.wrath-and-glory.sheet.item .psychic-power .sheet-body .wrapper .damage,
+.wrath-and-glory.sheet.item .psychic-power .sheet-body .wrapper .ed,
+.wrath-and-glory.sheet.item .psychic-power .sheet-body .wrapper .die-value {
+  display: flex;
+  flex-direction: row;
+  flex-basis: 100%;
+}
+
+.wrath-and-glory.sheet.item .psychic-power .sheet-body .wrapper .damage .rank,
+.wrath-and-glory.sheet.item .psychic-power .sheet-body .wrapper .ed .rank {
+  width: 95px;
+}
+
+.wrath-and-glory.sheet.item .psychic-power .sheet-body .wrapper .damage .base,
+.wrath-and-glory.sheet.item .psychic-power .sheet-body .wrapper .ed .base {
+  flex-basis: 15%;
+}
+
+.wrath-and-glory.sheet.item .psychic-power .sheet-body .wrapper .damage .modifier,
+.wrath-and-glory.sheet.item .psychic-power .sheet-body .wrapper .ed .modifier {
+  flex-basis: 15%;
 }
 
 /* TALENT */
@@ -484,7 +534,7 @@
 
 .wrath-and-glory.sheet.item .weapon .description .editor,
 .wrath-and-glory.sheet.item .weapon .bonus {
-  height: 372px;
+  height: 578px;
 }
 
 .wrath-and-glory.sheet.item .weapon .upgrades .editor {
@@ -501,7 +551,7 @@
 .wrath-and-glory.sheet.item .weapon .sheet-body .wrapper .category {
   display: flex;
   flex-direction: row;
-  flex-basis: 50%;
+  flex-basis: calc(50% - 4px);
 }
 
 .wrath-and-glory.sheet.item .weapon .sheet-body .wrapper .salvo {
@@ -518,26 +568,35 @@
   margin-left: 4px;
 }
 
-.wrath-and-glory.sheet.item .weapon .sheet-body .wrapper .damage {
+.wrath-and-glory.sheet.item .weapon .sheet-body .wrapper .attack,
+.wrath-and-glory.sheet.item .weapon .sheet-body .wrapper .damage,
+.wrath-and-glory.sheet.item .weapon .sheet-body .wrapper .ed,
+.wrath-and-glory.sheet.item .weapon .sheet-body .wrapper .ap,
+.wrath-and-glory.sheet.item .weapon .sheet-body .wrapper .die-value {
   display: flex;
   flex-direction: row;
-  flex-basis: calc((100% / 3) - 4px);
-  margin-right: 4px;
+  flex-basis: 100%;
 }
 
-.wrath-and-glory.sheet.item .weapon .sheet-body .wrapper .ap {
-  display: flex;
-  flex-direction: row;
-  flex-basis: calc((100% / 3) - 8px);
-  margin-left: 4px;
-  margin-right: 4px;
+.wrath-and-glory.sheet.item .weapon .sheet-body .wrapper .attack .rank,
+.wrath-and-glory.sheet.item .weapon .sheet-body .wrapper .damage .rank,
+.wrath-and-glory.sheet.item .weapon .sheet-body .wrapper .ed .rank,
+.wrath-and-glory.sheet.item .weapon .sheet-body .wrapper .ap .rank {
+  width: 95px;
 }
 
-.wrath-and-glory.sheet.item .weapon .sheet-body .wrapper .ed {
-  display: flex;
-  flex-direction: row;
-  flex-basis: calc((100% / 3) - 4px);
-  margin-left: 4px;
+.wrath-and-glory.sheet.item .weapon .sheet-body .wrapper .attack .base,
+.wrath-and-glory.sheet.item .weapon .sheet-body .wrapper .damage .base,
+.wrath-and-glory.sheet.item .weapon .sheet-body .wrapper .ed .base,
+.wrath-and-glory.sheet.item .weapon .sheet-body .wrapper .ap .base {
+  flex-basis: 15%;
+}
+
+.wrath-and-glory.sheet.item .weapon .sheet-body .wrapper .attack .modifier,
+.wrath-and-glory.sheet.item .weapon .sheet-body .wrapper .damage .modifier,
+.wrath-and-glory.sheet.item .weapon .sheet-body .wrapper .ed .modifier,
+.wrath-and-glory.sheet.item .weapon .sheet-body .wrapper .ap .modifier {
+  flex-basis: 15%;
 }
 
 .wrath-and-glory.sheet.item .weapon .sheet-body .wrapper .value {

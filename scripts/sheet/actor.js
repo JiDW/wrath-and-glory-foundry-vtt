@@ -1,4 +1,4 @@
-import { prepareCustomRoll, prepareCommonRoll, prepareWeaponRoll, prepareDamageRoll, preparePsychicRoll } from "../common/dialog.js";
+import { prepareCommonRoll, prepareWeaponRoll, prepareDamageRoll, preparePsychicRoll } from "../common/dialog.js";
 import { reroll } from "../common/roll.js";
 
 export class WrathAndGloryActorSheet extends ActorSheet {
@@ -12,6 +12,7 @@ export class WrathAndGloryActorSheet extends ActorSheet {
         html.find("input").focusin(ev => this._onFocusIn(ev));
         html.find(".roll-attribute").click(async ev => await this._prepareRollAttribute(ev));
         html.find(".roll-skill").click(async ev => await this._prepareRollSkill(ev));
+        html.find(".roll-stealth").click(async ev => await this._prepareRollStealthScore(ev));
         html.find(".roll-determination").click(async ev => await this._prepareRollDetermination(ev));
         html.find(".roll-conviction").click(async ev => await this._prepareRollConviction(ev));
         html.find(".roll-resolve").click(async ev => await this._prepareRollResolve(ev));
@@ -75,7 +76,7 @@ export class WrathAndGloryActorSheet extends ActorSheet {
 
     async _prepareCustomRoll() {
         this._resetRollData();
-        await prepareCustomRoll(this.rollData);
+        await prepareCommonRoll(this.rollData);
     }
 
     async _prepareReroll() {
@@ -85,10 +86,29 @@ export class WrathAndGloryActorSheet extends ActorSheet {
     async _prepareDamageRoll() {
         this._resetRollData();
         this.rollData.weapon = {
-            damage: 0,
-            bonus: 0,
-            ed: 0,
-            ap: 0,
+            damage: {
+                base: 0,
+                rank: "none",
+                bonus: 0
+            },
+            ed: {
+                base: 0,
+                rank: "none",
+                bonus: 0,
+                die: {
+                    one: 0,
+                    two: 0,
+                    three: 0,
+                    four: 1,
+                    five: 1,
+                    six: 2
+                }
+            },
+            ap: {
+                base: 0,
+                rank: "none",
+                bonus: 0
+            },
             traits: ""
         }
         this.rollData.name = "ROLL.DAMAGE";
@@ -111,6 +131,16 @@ export class WrathAndGloryActorSheet extends ActorSheet {
         const skillName = $(event.currentTarget).data("skill");
         const skill = this.actor.data.data.skills[skillName];
         this.rollData.name = skill.label;
+        this.rollData.pool.size = skill.total;
+        await prepareCommonRoll(this.rollData);
+    }
+
+    async _prepareRollStealthScore(event) {
+        event.preventDefault();
+        this._resetRollData();
+        const skill = this.actor.data.data.skills.stealth;
+        this.rollData.name = skill.label;
+        this.rollData.difficulty.target = 0;
         this.rollData.pool.size = skill.total;
         await prepareCommonRoll(this.rollData);
     }
@@ -147,22 +177,38 @@ export class WrathAndGloryActorSheet extends ActorSheet {
         const weapon = this.actor.getOwnedItem(div.data("itemId"));
         let skill;
         this.rollData.weapon = {
-            damage: weapon.data.data.damage,
-            bonus: 0,
-            ed: weapon.data.data.ed,
-            ap: weapon.data.data.ap,
+            damage: {
+                base: weapon.data.data.damage.base,
+                rank: weapon.data.data.damage.rank,
+                bonus: weapon.data.data.damage.bonus
+            },
+            ed: {
+                base: weapon.data.data.ed.base,
+                rank: weapon.data.data.ed.rank,
+                bonus: weapon.data.data.ed.bonus,
+                die: weapon.data.data.ed.die
+            },
+            ap: {
+                base: weapon.data.data.ap.base,
+                rank: weapon.data.data.ap.rank,
+                bonus: weapon.data.data.ap.bonus
+            },
             traits: weapon.data.data.traits
-        }
+        };
         if (weapon.data.data.category === "melee") {
             skill = this.actor.data.data.skills.weaponSkill;
             let strength = this.actor.data.data.attributes.strength;
-            this.rollData.weapon.bonus = strength.total;
+            this.rollData.weapon.damage.bonus = strength.total;
         } else {
             skill = this.actor.data.data.skills.ballisticSkill;
         }
+        this.rollData.wrath.isWeapon = true;
+        this.rollData.wrath.isCommon = false;
         this.rollData.skillName = skill.label;
         this.rollData.name = weapon.data.name;
         this.rollData.pool.size = skill.total;
+        this.rollData.pool.bonus = weapon.data.data.attack.base + weapon.data.data.attack.bonus;
+        this.rollData.pool.rank = weapon.data.data.attack.rank;
         await prepareWeaponRoll(this.rollData);
     }
 
@@ -174,20 +220,51 @@ export class WrathAndGloryActorSheet extends ActorSheet {
         const skill = this.actor.data.data.skills.psychicMastery;
         this.rollData.difficulty.target = psychicPower.data.data.dn;
         this.rollData.name = psychicPower.data.name;
+        this.rollData.weapon = {
+            damage: {
+                base: psychicPower.data.data.damage.base,
+                rank: psychicPower.data.data.damage.rank,
+                bonus: psychicPower.data.data.damage.bonus
+            },
+            ed: {
+                base: psychicPower.data.data.ed.base,
+                rank: psychicPower.data.data.ed.rank,
+                bonus: psychicPower.data.data.ed.bonus,
+                die: psychicPower.data.data.ed.die
+            },
+            potency: psychicPower.data.data.potency
+        };
+        this.rollData.wrath.isPsy = true;
+        this.rollData.wrath.isCommon = false;
         this.rollData.pool.size = skill.total;
+        this.rollData.skillName = skill.label;
+        this.rollData.name = psychicPower.data.name;
         await preparePsychicRoll(this.rollData);
     }
 
     _resetRollData() {
+        let rank = 0;
+        if (this.actor.data.data.hasOwnProperty("advances")) {
+            rank = this.actor.data.data.advances.rank;
+        }
         this.rollData = {
             name: "DIALOG.CUSTOM_ROLL",
+            rank: rank,
             difficulty: {
                 target: 3,
-                penalty: 0
+                penalty: 0,
+                rank: "none"
             },
             pool: {
                 size: 1,
-                bonus: 0
+                bonus: 0,
+                rank: "none"
+            },
+            wrath: {
+                base: 1,
+                isPsy: false,
+                isCommon: true,
+                isWeapon: false
             },
             result: {
                 dice: [],
@@ -210,7 +287,7 @@ export class WrathAndGloryActorSheet extends ActorSheet {
         } else if (corruption > 5) {
             return 1;
         } else {
-            return 0
+            return 0;
         }
     }
 }

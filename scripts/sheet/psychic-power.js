@@ -6,7 +6,7 @@ export class PsychicPowerSheet extends WrathAndGloryItemSheet {
             classes: ["wrath-and-glory", "sheet", "item"],
             template: "systems/wrath-and-glory/template/sheet/psychic-power.html",
             width: 500,
-            height: 567,
+            height: 734,
             resizable: false,
             tabs: [
                 {

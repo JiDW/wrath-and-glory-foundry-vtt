@@ -118,8 +118,7 @@ export class WrathAndGloryActor extends Actor {
         data.data.combat.resilence.total = this._setDefault(data.data.attributes.toughness.rating + 1 + data.data.combat.resilence.bonus + data.data.combat.resilence.armor, 1);
         data.data.combat.wounds.max = this._setDefault((data.data.advances.tier * 2) + data.data.attributes.toughness.rating + data.data.combat.wounds.bonus, 1);
         data.data.combat.determination.total = this._setDefault(data.data.attributes.toughness.rating + data.data.combat.determination.bonus, 1);
-        data.data.combat.shock.max = this._setDefault(data.data.attributes.willpower.rating + data.data.advances.tier + data.data.combat.determination.bonus, 1);
-        data.data.combat.shock.max = this._setDefault(data.data.attributes.willpower.rating + data.data.advances.tier + data.data.combat.determination.bonus, 1);
+        data.data.combat.shock.max = this._setDefault(data.data.attributes.willpower.rating + data.data.advances.tier + data.data.combat.shock.bonus, 1);
     }
 
     _setDefault(value, fallback) {

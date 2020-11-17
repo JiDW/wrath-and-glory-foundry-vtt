@@ -6,7 +6,7 @@ export class WeaponSheet extends WrathAndGloryItemSheet {
             classes: ["wrath-and-glory", "sheet", "item"],
             template: "systems/wrath-and-glory/template/sheet/weapon.html",
             width: 500,
-            height: 584,
+            height: 790,
             resizable: false,
             tabs: [
                 {

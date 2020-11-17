@@ -20,9 +20,9 @@
         <div class="item" data-item-id="{{item._id}}">
           <div class="avatar" style="background-image: url('{{item.img}}')"></div>
           <div class="name item-edit">{{item.name}}</div>
-          <div class="damage">{{item.data.damage}}</div>
-          <div class="ed">{{item.data.ed}}</div>
-          <div class="ap">{{item.data.ap}}</div>
+          <div class="damage">{{damage item.data.damage}}</div>
+          <div class="ed">{{ed item.data.ed}}</div>
+          <div class="ap">{{ap item.data.ap}}</div>
           <div class="range">{{range item.data}}</div>
           <div class="traits">{{item.data.traits}}</div>
           <div class="button">

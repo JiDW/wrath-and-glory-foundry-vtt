@@ -1,7 +1,5 @@
 export async function commonRoll(rollData) {
   _rollPoolDice(rollData);
-  _computeDice(rollData);
-  rollData.result.dice.push(_computeWrath(rollData.result.wrath));
   _computeChat(rollData);
   await _sendToChat(rollData);
 }
@@ -13,12 +11,26 @@ export async function weaponRoll(rollData) {
   rollData.name = weaponName;
   if (rollData.result.isSuccess) {
     _rollDamage(rollData);
+    _computeDamageChat(rollData);
+    await _sendDamageToChat(rollData);
+  }
+}
+
+export async function psychicRoll(rollData) {
+  let psychicName = rollData.name;
+  rollData.name = game.i18n.localize(rollData.skillName);
+  await commonRoll(rollData);
+  rollData.name = psychicName;
+  if (rollData.result.isSuccess && _hasDamage(rollData)) {
+    _rollDamage(rollData);
+    _computeDamageChat(rollData);
     await _sendDamageToChat(rollData);
   }
 }
 
 export async function damageRoll(rollData) {
   _rollDamage(rollData);
+  _computeDamageChat(rollData);
   await _sendDamageToChat(rollData);
 }
 
@@ -41,43 +53,51 @@ export async function reroll(rollData) {
 }
 
 function _rollPoolDice(rollData) {
-  let size = rollData.pool.size + rollData.pool.bonus;
+  let wrathSize = rollData.wrath.base > 0 ? rollData.wrath.base : 1;
+  let poolSize = rollData.pool.size + rollData.pool.bonus - 1;
   rollData.dn = rollData.difficulty.target + rollData.difficulty.penalty;
-  let formula = `${size}d6`;
+  if (poolSize > 0) {
+    _rollDice(rollData, `${poolSize}d6`, false);
+  }
+  _rollDice(rollData, `${wrathSize}d6`, true);
+}
+
+function _rollDice(rollData, formula, isWrath) {
   let r = new Roll(formula, {});
   r.evaluate();
   r.terms.forEach((term) => {
     if (typeof term === 'object' && term !== null) {
       term.results.forEach(result => {
-        if (rollData.result.wrath === 0) {
-          rollData.result.wrath = result.result;
+        let die = {};
+        if (isWrath) {
+          die = _computeWrath(result.result); 
         } else {
-          let die = _computeDice(result.result);
-          rollData.result.dice.push(die);
+          die = _computeDice(result.result);  
         }
+        rollData.result.dice.push(die);
       });
     }
   });
 }
 
 function _rollDamage(rollData) {
-  let formula = `${rollData.weapon.ed}d6`;
+  let ed = rollData.weapon.ed.base + rollData.weapon.ed.bonus;
+  let formula = `${ed}d6`;
   let r = new Roll(formula, {});
   r.evaluate();
   rollData.result.damage = {
     dice: [],
-    total: rollData.weapon.damage + rollData.weapon.bonus
+    total: rollData.weapon.damage.base + rollData.weapon.damage.bonus
   };
   r.terms.forEach((term) => {
     if (typeof term === 'object' && term !== null) {
       term.results.forEach(result => {
-        let die = _computeDice(result.result);
-        rollData.result.damage.total = rollData.result.damage.total + die.value;
+        let die = _computeExtraDice(result.result, rollData.weapon.ed.die);
+        rollData.result.damage.total += die.value;
         rollData.result.damage.dice.push(die);
       });
     }
   });
-  rollData.result.damage.dice.sort((a, b) => { return b.weight - a.weight });
 }
 
 function _computeChat(rollData) {
@@ -86,8 +106,15 @@ function _computeChat(rollData) {
   rollData.result.failure = _countFailure(rollData);
   rollData.result.shifting = _countShifting(rollData);
   rollData.result.isSuccess = rollData.result.success >= rollData.dn;
-  rollData.result.isWrathCritical = rollData.result.wrath === 6;
-  rollData.result.isWrathComplication = rollData.result.wrath === 1;
+  rollData.result.isWrathCritical = _hasWrathValue(rollData, 6);
+  rollData.result.isWrathComplication = _hasWrathValue(rollData, 1);
+}
+
+function _computeDamageChat(rollData) {
+  rollData.result.damage.dice.sort((a, b) => { return b.weight - a.weight });
+  if (rollData.weapon.hasOwnProperty("ap")) {
+    rollData.weapon.ap.total = rollData.weapon.ap.base + rollData.weapon.ap.bonus;
+  }
 }
 
 function _computeDice(dieValue) {
@@ -95,6 +122,7 @@ function _computeDice(dieValue) {
     return {
       name: "icon",
       value: 2,
+      score: dieValue,
       isWrath: false,
       rerollable: false,
       weight: 3
@@ -103,6 +131,7 @@ function _computeDice(dieValue) {
     return {
       name: "success",
       value: 1,
+      score: dieValue,
       isWrath: false,
       rerollable: false,
       weight: 2
@@ -111,6 +140,7 @@ function _computeDice(dieValue) {
     return {
       name: "failed",
       value: 0,
+      score: dieValue,
       isWrath: false,
       rerollable: true,
       weight: 1
@@ -118,11 +148,34 @@ function _computeDice(dieValue) {
   }
 }
 
+function _computeExtraDice(dieValue, die) {
+  let propertyName = Object.keys(die)[dieValue - 1];
+  let value = die[propertyName];
+  let name = "failed";
+  let weight = 1;
+  if (value >= 2) {
+    name = "icon";
+    weight = 3;
+  } else if (value === 1) {
+    name = "success";
+    weight = 2;
+  }
+  return {
+    name: name,
+    value: value,
+    score: dieValue,
+    isWrath: false,
+    rerollable: false,
+    weight: weight
+  };
+}
+
 function _computeWrath(dieValue) {
   if (dieValue === 6) {
     return {
       name: "wrath-critical",
       value: 2,
+      score: dieValue,
       isWrath: true,
       rerollable: false,
       weight: 0
@@ -131,25 +184,28 @@ function _computeWrath(dieValue) {
     return {
       name: "wrath-success",
       value: 1,
+      score: dieValue,
       isWrath: true,
       rerollable: false,
-      weight: 0
+      weight: -1
     };
   } else if (dieValue === 1) {
     return {
       name: "wrath-complication",
       value: 0,
+      score: dieValue,
       isWrath: true,
       rerollable: false,
-      weight: 0
+      weight: -3
     };
   } else {
     return {
       name: "wrath-failed",
       value: 0,
+      score: dieValue,
       isWrath: true,
       rerollable: true,
-      weight: 0
+      weight: -2
     };
   }
 }
@@ -182,6 +238,22 @@ function _countShifting(rollData) {
     }
   }
   return shifting;
+}
+
+function _hasWrathValue(rollData, dieValue) {
+  for (let i = 0; i < rollData.result.dice.length; i++) {
+    let die = rollData.result.dice[i];
+    if (die.isWrath && die.score === dieValue) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function _hasDamage(rollData) {
+  let damage = rollData.weapon.damage.base + rollData.weapon.damage.bonus;
+  let ed = rollData.weapon.ed.base + rollData.weapon.ed.bonus;
+  return (damage > 0 || ed > 0);
 }
 
 async function _sendToChat(rollData) {
