@@ -265,7 +265,7 @@ async function _sendToChat(rollData) {
     user: game.user._id,
     rollMode: game.settings.get("core", "rollMode"),
     content: html,
-    roll: new DicePool({rolls: rollData.rolls.hit, modifiers: []}),
+    roll: new DicePool({rolls: rollData.rolls.hit, modifiers: []}).evaluate(),
     type: CHAT_MESSAGE_TYPES.ROLL
   };
   if (["gmroll", "blindroll"].includes(chatData.rollMode)) {
@@ -282,7 +282,7 @@ async function _sendDamageToChat(rollData) {
     user: game.user._id,
     rollMode: game.settings.get("core", "rollMode"),
     content: html,
-    roll: new DicePool({rolls: rollData.rolls.damage, modifiers: []}),
+    roll: new DicePool({rolls: rollData.rolls.damage, modifiers: []}).evaluate(),
     type: CHAT_MESSAGE_TYPES.ROLL
   };
   if (["gmroll", "blindroll"].includes(chatData.rollMode)) {
