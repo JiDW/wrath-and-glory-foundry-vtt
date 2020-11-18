@@ -272,6 +272,10 @@ export class WrathAndGloryActorSheet extends ActorSheet {
                 isSuccess: false,
                 isWrathCriticals: false,
                 isWrathComplications: false
+            },
+            rolls: {
+                hit: [],
+                damage: []
             }
         };
     }

@@ -35,10 +35,11 @@ export async function damageRoll(rollData) {
 }
 
 export async function reroll(rollData) {
+  rollData.rolls.hit = [];
   rollData.result.dice = rollData.result.dice.map(die => {
     if (die.rerollable) {
       let d = new Die({ faces: 6, number: 1 }).evaluate();
-      console.log(die);
+      rollData.rolls.hit.push(d);
       if (die.isWrath) {
         return _computeWrath(d.total);
       } else {
@@ -78,6 +79,7 @@ function _rollDice(rollData, formula, isWrath) {
       });
     }
   });
+  rollData.rolls.hit.push(r);
 }
 
 function _rollDamage(rollData) {
@@ -98,6 +100,7 @@ function _rollDamage(rollData) {
       });
     }
   });
+  rollData.rolls.damage.push(r);
 }
 
 function _computeChat(rollData) {
@@ -262,6 +265,8 @@ async function _sendToChat(rollData) {
     user: game.user._id,
     rollMode: game.settings.get("core", "rollMode"),
     content: html,
+    roll: new DicePool({rolls: rollData.rolls.hit, modifiers: []}),
+    type: CHAT_MESSAGE_TYPES.ROLL
   };
   if (["gmroll", "blindroll"].includes(chatData.rollMode)) {
     chatData.whisper = ChatMessage.getWhisperRecipients("GM");
@@ -277,6 +282,8 @@ async function _sendDamageToChat(rollData) {
     user: game.user._id,
     rollMode: game.settings.get("core", "rollMode"),
     content: html,
+    roll: new DicePool({rolls: rollData.rolls.damage, modifiers: []}),
+    type: CHAT_MESSAGE_TYPES.ROLL
   };
   if (["gmroll", "blindroll"].includes(chatData.rollMode)) {
     chatData.whisper = ChatMessage.getWhisperRecipients("GM");
